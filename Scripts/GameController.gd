@@ -60,6 +60,11 @@ func win():
 	if current_room == "Combat" && enemys_in_scene.size() <= 0 && turn_state != turn.WIN:
 		turn_state = turn.WIN
 		print("Win")
+		SavePlayerStats.save_stats({
+			"player_hp":player.life,
+			"current_weapon":player.current_weapon_damage,
+			"current_defence":player.current_defence
+		})
 		get_tree().reload_current_scene()
 
 func lost():

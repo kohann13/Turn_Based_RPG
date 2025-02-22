@@ -20,6 +20,13 @@ var current_defence:int = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#save system
+	var data = SavePlayerStats.stored_data
+	if data:
+		life = data.get("player_hp")
+		current_weapon_damage = data.get("current_weapon")
+		current_defence = data.get("current_defence")
+	
 	gmc = get_tree().get_first_node_in_group("GameController")
 
 
@@ -29,7 +36,7 @@ func _process(delta: float) -> void:
 	
 
 func _on_attack_button_button_down() -> void:
-	if gmc.turn_state == gmc.turn.PLAYER:
+	if gmc.current_room == "Combat" && gmc.turn_state == gmc.turn.PLAYER:
 		can_select_enemy = true
 
 func attack():
