@@ -3,9 +3,17 @@ extends Node2D
 class_name Player
 
 var gmc:Node2D
+var camera:Camera2D
 
 #life
+var player_life_bar
+var max_life:int
 var life:int
+
+#power
+var player_power_bar
+var max_power:int
+var power:int
 
 #dices
 var dice:int
@@ -53,7 +61,9 @@ func take_damage(dam:int):
 		life -= dam
 	else:
 		life -= (dam - current_defence)
-	
+	player_life_bar.value = life
+	var camera = get_tree().get_first_node_in_group("Camera")
+	camera.aply_shake(2)
 	print(life)
 	if life <= 0:
 		queue_free()
@@ -62,6 +72,9 @@ func take_damage(dam:int):
 func load_stats():
 	var data = SavePlayerStats.stored_data
 	if data:
+		max_life = data.get("player_max_hp")
 		life = data.get("player_hp")
+		max_power = data.get("player_max_power")
+		power = data.get("player_power")
 		current_weapon_damage = data.get("current_weapon")
 		current_defence = data.get("current_defence")
